@@ -15,12 +15,17 @@ describe Oystercard do
     subject.top_up(max_limit)
     expect { subject.top_up(1) }.to raise_error "Maximum balance is £#{subject.max_limit}."
   end
-    
-end
+    it "Deducts money from balance " do
+      subject.top_up(20)
+      expect(subject.deduct(2)).to eq (18)
+    end
 
-# it 'should not exceed the balance of #{subject.maximum limit}' do
-#     maximum_limit = Oystercard::BALANCE_LIMIT
-#     subject.top_up(maximum_limit)
-#     expect { subject.top_up(1) }
-#       .to raise_error "Maximum balance is £#{subject.maximum_limit}."
-#   end
+    it 'is initially not in a journey' do
+        expect(subject).not_to be_in_journey
+      end
+
+      it "can touch in" do
+        subject.touch_in
+        expect(subject).to be_in_journey
+      end
+end
