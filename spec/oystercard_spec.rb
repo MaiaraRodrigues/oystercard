@@ -15,16 +15,13 @@ describe Oystercard do
     subject.top_up(max_limit)
     expect { subject.top_up(1) }.to raise_error "Maximum balance is £#{subject.max_limit}."
   end
-    it "Deducts money from balance " do
-      subject.top_up(20)
-      expect(subject.deduct(2)).to eq (18)
-    end
 
     it 'is initially not in a journey' do
         expect(subject).not_to be_in_journey
       end
 
       it "can touch in" do
+        subject.top_up(5)
         subject.touch_in
         expect(subject).to be_in_journey
       end
@@ -32,5 +29,14 @@ describe Oystercard do
       it "can touch out" do
         subject.touch_out
         expect(subject).not_to be_in_journey
+      end
+
+      it " raises error if not enough founds" do
+        expect { subject.touch_in}.to raise_error "Your balance is unsufficient"
+      end
+
+      it "Deducts value when touching out" do
+        subject.top_up(5)
+        expect { subject.touch_out}.to change{subject.balance}.by(-1)
       end
 end
