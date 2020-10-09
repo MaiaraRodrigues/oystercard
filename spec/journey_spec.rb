@@ -12,6 +12,11 @@ describe Journey do
         subject = Journey.new(:entry_station)
         expect(subject.end(:exit_station)).to eq Oystercard::MIN_BALANCE
     end 
+
+    it "gives a penalty fare of 6 if entry/exit station is nil" do
+        subject = Journey.new
+        expect(subject.calc_fare).to eq Journey::PENALTY_FARE
+    end
 end 
 
 

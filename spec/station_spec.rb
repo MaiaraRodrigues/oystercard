@@ -11,4 +11,6 @@ describe Station do
         subject = Station.new("Stratford", 1)
         expect(subject.zone).to eq 1
     end
+
+
 end
